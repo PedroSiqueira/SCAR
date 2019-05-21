@@ -1,3 +1,1 @@
-# SCAR
-# SCAR
-# SCAR
+# SCAR - Sistema de Controle e Acesso a ambientes Restritos
