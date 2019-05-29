@@ -1,3 +1,6 @@
+"""
+este programa compara a digital do leitor com a de algum template gravado no leitor
+"""
 from pyfingerprint.pyfingerprint import PyFingerprint
 
 ## Tries to initialize the sensor

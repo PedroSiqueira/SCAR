@@ -1,5 +1,2 @@
-from Manager import Manager
-
-m = Manager("scar.db")
-
-m.allowAccessByPassword(input("digite tua senha: "))
+print("\033[94mOlá Blz\033[0m")
+print("Olá Blz")

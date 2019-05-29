@@ -1,9 +1,9 @@
 from pynput import keyboard
 
 class Keys:
-    def __init__(self, manager):
+    def __init__(self, dao):
         self.keys = ""
-        self.manager = manager
+        self.dao = dao
 
     def on_release(self, key):
         # se for uma tecla alfanumerica
@@ -24,6 +24,6 @@ class Keys:
         else:
             # se for ENTER, faça uma ação
             if key == keyboard.Key.enter:
-                self.manager.allowAccessByPassword(self.keys)
+                self.dao.allowAccessByPassword(self.keys)
             else: print("temp")
             self.keys = ""

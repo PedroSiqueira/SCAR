@@ -1,11 +1,10 @@
-from Manager import Manager
+from Dao import Dao
 from Keys import Keys
-from FingerPrint import FingerPrint
 from pynput import keyboard
 from pyfingerprint.pyfingerprint import PyFingerprint
 
-mgr = Manager("scar.db")
-keys = Keys(mgr)
+dao = Dao("scar.db")
+keys = Keys(dao)
 
 ## Initialize keyboard listener
 listener = keyboard.Listener(on_release=keys.on_release, suppress=True)
