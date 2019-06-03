@@ -1,24 +1,6 @@
 from pyfingerprint.pyfingerprint import PyFingerprint
 
-def search():
-    ## Converts ImageBuffer to characteristics and stores it in charbuffer 1
-    f.convertImage(0x01)
-
-    # procura por CharBuffer no banco de impressoes
-    result = f.searchTemplate()
-
-    positionNumber = result[0]
-    accuracyScore = result[1]
-
-    if ( positionNumber == -1 ):
-        print('No match found!')
-    else:
-        print('Found template at position #' + str(positionNumber))
-
-    print('The accuracy score is: ' + str(accuracyScore))
-
 def iniciarConexao(port = '/dev/ttyAMA0', baudRate = 57600, address = 0xFFFFFFFF, password = 0x00000000):
-    # Tries to initialize the sensor
     try:
         f = PyFingerprint(port, baudRate, address, password)
         if ( f.verifyPassword() == False ):
@@ -26,13 +8,13 @@ def iniciarConexao(port = '/dev/ttyAMA0', baudRate = 57600, address = 0xFFFFFFFF
         return f
     except Exception as e:
         print('Leitor biométrico não pôde ser inicializado!')
-        print('Erro: ' + str(e))
-        return None
+        raise e
 
-def criarDigital():
-    f = iniciarConexao()
+def salvarDigital(index = -1):
+    if index is None: index = -1
     try:
-        print('Informa tua digital:')
+        f = iniciarConexao()
+        print('Informa a digital:')
         while ( f.readImage() == False ): pass
 
         # joga o ImageBuffer para o CharBuffer1
@@ -41,31 +23,36 @@ def criarDigital():
         #verifica se ja existe essa impressao digital
         result = f.searchTemplate()
         if ( result[0] >= 0 ):
-            print('Digital já existe na posição #' + str(positionNumber))
-            return
+            raise Exception('Digital já existe na posição', result[0])
 
-        print('Ok, informa tua digital novamente')
+        print('Ok, informa a digital novamente')
+        while ( f.readImage() == False ): pass
 
-        ## Wait that finger is read again
-        while ( f.readImage() == False ):
-            pass
-
-        ## Converts read image to characteristics and stores it in charbuffer 2
+        # joga o ImageBuffer para o CharBuffer2
         f.convertImage(0x02)
 
-        ## Compares the charbuffers
+        # Compares the charbuffers
         if ( f.compareCharacteristics() == 0 ):
-            raise Exception('Fingers do not match')
+            raise Exception('Digitais não conferem')
 
-        ## Creates a template
+        # Coloca em CharBuffer1 e CharBuffer2 suas características combinadas
         f.createTemplate()
 
-        ## Saves template at new position number
-        positionNumber = f.storeTemplate()
-        print('Finger enrolled successfully!')
-        print('New template position #' + str(positionNumber))
+        # Salva o CharBuffer na memória
+        i = f.storeTemplate(index)
+        print('Digital salva na posição', i)
+        return i
 
     except Exception as e:
-        print('Operation failed!')
-        print('Exception message: ' + str(e))
-        exit(1)
+        print('Erro: ' + str(e))
+        if input("Deseja tentar novamente? (s/n)").lower=='s':
+            salvarDigital(index)
+
+def apagarDigital(index):
+    if index is None: return True
+    try:
+        f = iniciarConexao()
+        if(f.deleteTemplate(index)):
+            return True
+    except Exception as e:
+        print('Erro: ' + str(e))
