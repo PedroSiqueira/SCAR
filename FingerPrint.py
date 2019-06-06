@@ -45,7 +45,7 @@ def salvarDigital(index = -1):
 
     except Exception as e:
         print('Erro: ' + str(e))
-        if input("Deseja tentar novamente? (s/n)").lower=='s':
+        if input("Deseja tentar novamente? (s/n) ").lower=='s':
             salvarDigital(index)
 
 def apagarDigital(index):
