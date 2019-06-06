@@ -25,5 +25,4 @@ class Keys:
             # se for ENTER, faça uma ação
             if key == keyboard.Key.enter:
                 self.dao.allowAccessByPassword(self.keys)
-            else: print("temp")
             self.keys = ""

@@ -31,7 +31,7 @@ while(True):
         usuario_nome = input("Digita o novo nome do usuário (deixa em branco para não alterar): ")
         usuario_senha = getpass.getpass("Digita a nova senha do usuário (deixa em branco para não alterar): ")
         usuario = dao.readUser(usuario_id)
-        if(input("Digita 's' se quiseres alterar a digital: ").lower=='s'):
+        if(input("Digita 's' se quiseres alterar a digital: ").lower()=='s'):
             usuario_digital = fp.salvarDigital(usuario[3])
         else: usuario_digital = usuario[3]
         dao.updateUser(usuario_id, usuario_novo_id, usuario_nome,usuario_senha, usuario_digital)

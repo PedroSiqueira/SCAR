@@ -26,6 +26,8 @@ def salvarDigital(index = -1):
             raise Exception('Digital já existe na posição', result[0])
 
         print('Ok, informa a digital novamente')
+        time.sleep(2)
+
         while ( f.readImage() == False ): pass
 
         # joga o ImageBuffer para o CharBuffer2
@@ -45,7 +47,7 @@ def salvarDigital(index = -1):
 
     except Exception as e:
         print('Erro: ' + str(e))
-        if input("Deseja tentar novamente? (s/n) ").lower=='s':
+        if input("Deseja tentar novamente? (s/n) ").lower()=='s':
             salvarDigital(index)
 
 def apagarDigital(index):
