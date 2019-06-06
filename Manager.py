@@ -23,11 +23,11 @@ while(True):
         for user in dao.readUsers():
             print(user)
     elif(opcao==2):
-        usuario_id = input("Digita o id do usuário que queres ver: ")
+        usuario_id = int(input("Digita o id do usuário que queres ver: "))
         print(dao.readUser(usuario_id))
     elif(opcao==3):
-        usuario_id = input("Digita o id do usuário que queres editar: ")
-        usuario_novo_id = input("Digita o novo id do usuário (deixa em branco para não alterar): ")
+        usuario_id = int(input("Digita o id do usuário que queres editar: "))
+        usuario_novo_id = int(input("Digita o novo id do usuário (deixa em branco para não alterar): "))
         usuario_nome = input("Digita o novo nome do usuário (deixa em branco para não alterar): ")
         usuario_senha = getpass.getpass("Digita a nova senha do usuário (deixa em branco para não alterar): ")
         usuario = dao.readUser(usuario_id)
@@ -37,14 +37,14 @@ while(True):
         dao.updateUser(usuario_id, usuario_novo_id, usuario_nome,usuario_senha, usuario_digital)
         print("Usuário", usuario_id, "alterado com sucesso!")
     elif(opcao==4):
-        usuario_id = input("Digita o id do novo usuário: ")
+        usuario_id = int(input("Digita o id do novo usuário: "))
         usuario_nome = input("Digita o nome do novo usuário: ")
         usuario_senha = getpass.getpass("Digita a senha do novo usuário: ")
         usuario_digital = fp.salvarDigital()
-        dao.createUser(usuario_nome,usuario_id,usuario_senha,usuario_digital)
+        dao.createUser(usuario_nome, usuario_id, usuario_senha, usuario_digital)
         print("Usuário",usuario_id, "salvo com sucesso!")
     elif(opcao==5):
-        usuario_id = input("Digita o id do usuário que queres apagar: ")
+        usuario_id = int(input("Digita o id do usuário que queres apagar: "))
         usuario = dao.readUser(usuario_id)
         if(usuario is None): print("Este usuário não foi encontrado")
         elif fp.apagarDigital(usuario[3]):

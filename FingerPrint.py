@@ -1,4 +1,5 @@
 from pyfingerprint.pyfingerprint import PyFingerprint
+import time
 
 def iniciarConexao(port = '/dev/ttyAMA0', baudRate = 57600, address = 0xFFFFFFFF, password = 0x00000000):
     try:
