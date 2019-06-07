@@ -23,7 +23,22 @@ except Exception as e:
 print("fingerprint initialized")
 while(True):
     try:
+        # se ha uma impressao digital no ImageBuffer
         if(f.readImage()):
-            search()
+            # joga o ImageBuffer no CharBuffer1
+            f.convertImage(0x01)
+
+            # procura pelo CharBuffer1 na memoria do sensor
+            result = f.searchTemplate()
+            index = result[0]
+
+            # se encontrou a impressao digital
+            if ( index >= 0 ):
+                # tenta salvar no banco de dados o horario de acesso
+                if(dao.allowAccessByFingerPrint(index)): print("Authorized access")
+                # nao conseguiu salvar o horario no banco de dados
+                else: print("Could not find user in database")
+            else: print("Unauthorized access")
+
     except Exception as e:
         print(e)

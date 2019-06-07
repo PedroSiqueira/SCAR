@@ -1,20 +1,34 @@
 import sqlite3
 import bcrypt
+import datetime
 
 class Dao:
     def __init__(self, db_name):
         self.db_name = db_name
 
+    def allowAccessByFingerPrint(self, index):
+        with sqlite3.connect(self.db_name) as con:
+            # verifica se existe um usuario com tal impressao digital
+            usuario = con.cursor().execute('SELECT id FROM usuario WHERE impressao_digital = ?', (index,)).fetchone()
+            # se existir, autoriza o acesso e salva o horario
+            if(usuario):
+                con.cursor().execute("INSERT INTO horario (horario_entrada, usuario_id) VALUES (?,?)",(datetime.datetime.now(),usuario[0]))
+                return True
+            else: return False
+
     def allowAccessByPassword(self, password):
         with sqlite3.connect(self.db_name) as con:
             # como o banco nao salva a senha, mas o salted hash  dela, eh necessario buscar todos os salted hash do banco, e comparar cada um com a senha providenciada
-            senhas = con.cursor().execute('SELECT senha FROM usuario').fetchall()
-            liberado = False
-            for senha in senhas:
-                if bcrypt.checkpw(password.encode('utf8'), senha[0]):
-                    liberado = True
+            usuarios = con.cursor().execute('SELECT id,senha FROM usuario').fetchall()
+            i=0
+            for i,u in usuarios:
+                # se password confere com a senha em u, encerra a busca antes do final
+                if bcrypt.checkpw(password.encode('utf8'), u[1]):
                     break
-            if(liberado): return True
+            # se encerrou a busca antes do final, autoriza acesso e salva o horario
+            if(i<len(usuarios)):
+                con.cursor().execute("INSERT INTO horario (horario_entrada, usuario_id) VALUES (?,?)",(datetime.datetime.now(),usuarios[i][0]))
+                return True
             else: return False
 
     def createUser(self, nome, id, senha, impressao_digital = None):
