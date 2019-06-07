@@ -12,7 +12,6 @@ def iniciarConexao(port = '/dev/ttyAMA0', baudRate = 57600, address = 0xFFFFFFFF
         raise e
 
 def salvarDigital(index = -1):
-    if index is None: index = -1
     try:
         f = iniciarConexao()
         print('Informa a digital:')
@@ -49,7 +48,8 @@ def salvarDigital(index = -1):
     except Exception as e:
         print('Erro: ' + str(e))
         if input("Deseja tentar novamente? (s/n) ").lower()=='s':
-            salvarDigital(index)
+            return salvarDigital(index)
+        else: return -1
 
 def apagarDigital(index):
     if index is None: return True

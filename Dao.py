@@ -42,12 +42,11 @@ class Dao:
         with sqlite3.connect(self.db_name) as con:
             return con.cursor().execute("SELECT * FROM usuario").fetchall()
 
-    def updateUser(self, id, novo_id, nome, senha, impressao_digital):
+    def updateUser(self, id, novo_id, nome, senha, impressao_digital=-1):
         with sqlite3.connect(self.db_name) as con:
+            con.cursor().execute("UPDATE usuario SET impressao_digital = ? WHERE id = ? LIMIT 1", (impressao_digital, id))
             if(nome):
                 con.cursor().execute("UPDATE usuario SET nome = ? WHERE id = ? LIMIT 1", (nome, id))
-            if(impressao_digital):
-                con.cursor().execute("UPDATE usuario SET impressao_digital = ? WHERE id = ? LIMIT 1", (impressao_digital, id))
             if(senha):
                 senha = bcrypt.hashpw(senha.encode('utf8'), bcrypt.gensalt())
                 con.cursor().execute("UPDATE usuario SET senha = ? WHERE id = ? LIMIT 1", (senha, id))
