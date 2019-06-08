@@ -1,5 +1,5 @@
 import sqlite3
-import bcrypt
+import hashlib
 import datetime
 
 class Dao:
@@ -16,23 +16,27 @@ class Dao:
                 return True
             else: return False
 
-    def allowAccessByPassword(self, password):
+
+    def allowAccessByPassword(self, password, dontLog = False):
+        """
+        Se encontrar a senha password no banco de dados, registra no banco o horario da consulta e o id do usuario de senha password e retorna True, senao, retorna False. Se dontLog for True, nao registra o horario de consulta no banco, mesmo se encontrar a senha password.
+        """
         with sqlite3.connect(self.db_name) as con:
-            # como o banco nao salva a senha, mas o salted hash  dela, eh necessario buscar todos os salted hash do banco, e comparar cada um com a senha providenciada
-            usuarios = con.cursor().execute('SELECT id,senha FROM usuario').fetchall()
-            i=0
-            for i,u in usuarios:
-                # se password confere com a senha em u, encerra a busca antes do final
-                if bcrypt.checkpw(password.encode('utf8'), u[1]):
-                    break
-            # se encerrou a busca antes do final, autoriza acesso e salva o horario
-            if(i<len(usuarios)):
-                con.cursor().execute("INSERT INTO horario (horario_entrada, usuario_id) VALUES (?,?)",(datetime.datetime.now(),usuarios[i][0]))
+            password = hashlib.md5(password.encode('utf8')).hexdigest()
+            usuario = con.cursor().execute('SELECT id FROM usuario WHERE senha = ?'
+                                           , (password,)).fetchone()
+            if(usuario):
+                if(not dontLog):
+                    con.cursor().execute(
+                        """INSERT INTO horario (horario_entrada, usuario_id)
+                        VALUES (?,?)"""
+                        , (datetime.datetime.now(), usuarios[0])
+                    )
                 return True
             else: return False
 
     def createUser(self, nome, id, senha, impressao_digital = None):
-        senha = bcrypt.hashpw(senha.encode('utf8'), bcrypt.gensalt())
+        senha = hashlib.md5(senha.encode('utf8')).hexdigest()
         with sqlite3.connect(self.db_name) as con:
             con.cursor().execute("""
                 INSERT INTO usuario
@@ -41,7 +45,7 @@ class Dao:
                 (nome, id, senha, impressao_digital)
             )
             con.commit()
-            print("Dados inseridos com sucesso.")
+            return True
 
     def deleteUser(self, id):
         with sqlite3.connect(self.db_name) as con:
@@ -62,9 +66,9 @@ class Dao:
             if(nome):
                 con.cursor().execute("UPDATE usuario SET nome = ? WHERE id = ? LIMIT 1", (nome, id))
             if(senha):
-                senha = bcrypt.hashpw(senha.encode('utf8'), bcrypt.gensalt())
+                senha = hashlib.md5(senha.encode('utf8')).hexdigest()
                 con.cursor().execute("UPDATE usuario SET senha = ? WHERE id = ? LIMIT 1", (senha, id))
             if(novo_id):
                 con.cursor().execute("UPDATE usuario SET id = ? WHERE id = ? LIMIT 1", (novo_id, id))
             con.commit()
-            print("Dados atualizados com sucesso.")
+            return True
