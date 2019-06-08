@@ -4,6 +4,8 @@ class Keys:
     def __init__(self, dao):
         self.keys = ""
         self.dao = dao
+        self.quit = False
+        print("Keyboard listener initialized, press 'ESC' to quit program")
 
     def on_release(self, key):
         # se for uma tecla alfanumerica
@@ -15,7 +17,8 @@ class Keys:
             self.keys += key.char
         # se for a tecla ESC
         elif key == keyboard.Key.esc:
-            print("encerrando listener")
+            self.quit = True
+            print("quitting program...")
             return False # Stop listener
         # gambiarra: tecla numerica 5 nao reconhece se nao colocar o codigo dela
         elif(isinstance(key, keyboard.KeyCode) and key.vk == 65437):
@@ -24,5 +27,7 @@ class Keys:
         else:
             # se for ENTER, faça uma ação
             if key == keyboard.Key.enter:
-                self.dao.allowAccessByPassword(self.keys)
+                if self.dao.allowAccessByPassword(self.keys):
+                    print("Authorized access")
+                else: print("Unauthorized access")
             self.keys = ""

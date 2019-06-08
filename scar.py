@@ -15,13 +15,14 @@ try:
     f = PyFingerprint('/dev/ttyAMA0', 57600, 0xFFFFFFFF, 0x00000000)
     if ( f.verifyPassword() == False ):
         raise ValueError('The given fingerprint sensor password is wrong!')
+        print("fingerprint initialized")
 except Exception as e:
     print('The fingerprint sensor could not be initialized!')
     print('Exception message: ' + str(e))
     exit(1)
 
-print("fingerprint initialized")
-while(True):
+print("Waiting for fingerprint or password...")
+while(not keys.quit):
     try:
         # se ha uma impressao digital no ImageBuffer
         if(f.readImage()):
@@ -35,9 +36,11 @@ while(True):
             # se encontrou a impressao digital
             if ( index >= 0 ):
                 # tenta salvar no banco de dados o horario de acesso
-                if(dao.allowAccessByFingerPrint(index)): print("Authorized access")
+                if(dao.allowAccessByFingerPrint(index)):
+                    print("Authorized access on fingerprint", index)
                 # nao conseguiu salvar o horario no banco de dados
-                else: print("Could not find user in database")
+                else:
+                    print("Could not find user in database")
             else: print("Unauthorized access")
 
     except Exception as e:

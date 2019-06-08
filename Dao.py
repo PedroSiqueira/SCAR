@@ -30,7 +30,7 @@ class Dao:
                     con.cursor().execute(
                         """INSERT INTO horario (horario_entrada, usuario_id)
                         VALUES (?,?)"""
-                        , (datetime.datetime.now(), usuarios[0])
+                        , (datetime.datetime.now(), usuario[0])
                     )
                 return True
             else: return False
