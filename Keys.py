@@ -1,9 +1,10 @@
 from pynput import keyboard
 
 class Keys:
-    def __init__(self, dao):
+    def __init__(self, dao, interface):
         self.keys = ""
         self.dao = dao
+        self.interface = interface
         self.quit = False
         print("Keyboard listener initialized, press 'ESC' to quit program")
 
@@ -29,5 +30,8 @@ class Keys:
             if key == keyboard.Key.enter:
                 if self.dao.allowAccessByPassword(self.keys):
                     print("Authorized access")
-                else: print("Unauthorized access")
+                    interface.acessoAutorizado(1)
+                else:
+                    print("Unauthorized access")
+                    interface.acessoDesautorizado(1)
             self.keys = ""

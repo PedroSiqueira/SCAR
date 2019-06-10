@@ -1,0 +1,3 @@
+se encerrar o programa com uma porta logica ativada, esta porta continuará ativada?
+
+acesso por senha e por digital ao mesmo tempo pode dar problema? a thread Keys tem comando sleep, mas o loop do programa principal espera o sleep de outra thread? comando sleep bloqueia todas as threads?

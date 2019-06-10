@@ -1,10 +1,12 @@
 from Dao import Dao
 from Keys import Keys
+from Interface import Interface
 from pynput import keyboard
 from pyfingerprint.pyfingerprint import PyFingerprint
 
 dao = Dao("scar.db")
-keys = Keys(dao)
+interface = Interface()
+keys = Keys(dao, interface)
 
 ## Initialize keyboard listener
 listener = keyboard.Listener(on_release=keys.on_release, suppress=True)
@@ -38,10 +40,15 @@ while(not keys.quit):
                 # tenta salvar no banco de dados o horario de acesso
                 if(dao.allowAccessByFingerPrint(index)):
                     print("Authorized access on fingerprint", index)
+                    interface.acessoAutorizado()
                 # nao conseguiu salvar o horario no banco de dados
                 else:
                     print("Could not find user in database")
-            else: print("Unauthorized access")
+                    interface.acessoAutorizado(2)
+            else:
+                print("Unauthorized access")
+                interface.acessoDesautorizado()
 
     except Exception as e:
         print(e)
+        interface.erro(e)
