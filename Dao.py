@@ -16,7 +16,6 @@ class Dao:
                 return True
             else: return False
 
-
     def allowAccessByPassword(self, password, dontLog = False):
         """
         Se encontrar a senha password no banco de dados, registra no banco o horario da consulta e o id do usuario de senha password e retorna True, senao, retorna False. Se dontLog for True, nao registra o horario de consulta no banco, mesmo se encontrar a senha password.
