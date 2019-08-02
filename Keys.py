@@ -1,5 +1,5 @@
 from pynput import keyboard
-
+# essa classe faz o controle dos comandos do teclado
 class Keys:
     def __init__(self, dao, interface):
         self.keys = ""
