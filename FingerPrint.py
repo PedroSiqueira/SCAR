@@ -1,6 +1,9 @@
 from pyfingerprint.pyfingerprint import PyFingerprint
 import time
 
+"""
+esta classe acessa o leitor biométrico
+"""
 def iniciarConexao(port = '/dev/ttyAMA0', baudRate = 57600, address = 0xFFFFFFFF, password = 0x00000000):
     try:
         f = PyFingerprint(port, baudRate, address, password)

@@ -1,6 +1,9 @@
 import RPi.GPIO as GPIO
 import time
 
+"""
+esta classe acessa os leds e a trava elétrica
+"""
 class Interface:
     def __init__(self, gpiomode = GPIO.BOARD, ledVerde = 11, ledVermelho = 13, fechadura = 18):
         GPIO.setmode(gpiomode)

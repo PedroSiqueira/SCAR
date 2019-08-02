@@ -3,6 +3,9 @@ import FingerPrint as fp
 from Dao import Dao
 import os
 
+"""
+este é o programa de cadastro de usuários
+"""
 def menu():
     print("###################")
     print("Escolha uma opção")
