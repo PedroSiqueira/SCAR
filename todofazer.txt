@@ -1,3 +1,9 @@
 se encerrar o programa com uma porta logica ativada, esta porta continuará ativada?
 
 acesso por senha e por digital ao mesmo tempo pode dar problema? a thread Keys tem comando sleep, mas o loop do programa principal espera o sleep de outra thread? comando sleep bloqueia todas as threads?
+
+Para entrar, precisa da leitura biométrica (ou senha?). Para sair, basta apertar o botão?
+
+Possibilidade de abrir a tranca através da internet.
+
+Pode ocorrer problema de demora para identificar a digital se comparada com um banco de digitais grandes. Portanto, o sistema pode realizar a exclusão de um usuário cadastrada se ele não usou o sistema por um período de 1 ano.
