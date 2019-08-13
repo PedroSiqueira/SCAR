@@ -6,13 +6,14 @@ import datetime
 esta classe acessa o banco de dados
 """
 class Dao:
+    """db_nome: caminho do banco de dados a ser aberto"""
     def __init__(self, db_name):
         self.db_name = db_name
 
-    def allowAccessByFingerPrint(self, index):
+    def allowAccessByFingerPrint(self, impressao_digital):
         with sqlite3.connect(self.db_name) as con:
             # verifica se existe um usuario com tal impressao digital
-            usuario = con.cursor().execute('SELECT id FROM usuario WHERE impressao_digital = ?', (index,)).fetchone()
+            usuario = con.cursor().execute('SELECT id FROM usuario WHERE impressao_digital = ?', (impressao_digital,)).fetchone()
             # se existir, autoriza o acesso e salva o horario
             if(usuario):
                 con.cursor().execute("INSERT INTO horario (horario_entrada, usuario_id) VALUES (?,?)",(datetime.datetime.now(),usuario[0]))

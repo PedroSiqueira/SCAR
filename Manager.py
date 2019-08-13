@@ -1,6 +1,6 @@
 import getpass
 import FingerPrint as fp
-from Dao import Dao
+from Dao import Dao # data acess object
 import os
 
 """
@@ -23,14 +23,14 @@ dao = Dao("scar.db")
 while(True):
     menu()
     opcao = input()
-    if(opcao=='1'):
+    if(opcao=='1'):# Listar usuários
         os.system('clear') # limpa a tela (funciona apenas no linux)
         for user in dao.readUsers():
             print(user)
-    elif(opcao=='2'):
+    elif(opcao=='2'):# Listar usuário
         usuario_id = input("Informa o id do usuário que queres ver: ")
         print(dao.readUser(usuario_id))
-    elif(opcao=='3'):
+    elif(opcao=='3'):# Editar usuário
         usuario_id = input("Informa o id do usuário que queres editar: ")
 
         usuario = dao.readUser(usuario_id)
@@ -41,19 +41,19 @@ while(True):
         usuario_novo_id = input("Informa o novo id do usuário (deixa em branco para não alterar): ")
         usuario_nome = input("Informa o novo nome do usuário (deixa em branco para não alterar): ")
         usuario_senha = getpass.getpass("Informa a nova senha do usuário (deixa em branco para não alterar): ")
-        if(input("Digita 's' se quiseres alterar a digital: ").lower()=='s'):
+        if(input("Digita 's' se quiseres alterar a digital: ").lower() == 's'):
             usuario_digital = fp.salvarDigital(usuario[3])
         else: usuario_digital = usuario[3]
         dao.updateUser(usuario_id, usuario_novo_id, usuario_nome,usuario_senha, usuario_digital)
         print("Usuário",usuario_id, "alterado com sucesso!")
-    elif(opcao=='4'):
+    elif(opcao=='4'):# Criar usuário
         usuario_id = input("Informa o id do novo usuário: ")
         usuario_nome = input("Informa o nome do novo usuário: ")
         usuario_senha = getpass.getpass("Informa a senha do novo usuário: ")
         usuario_digital = fp.salvarDigital()
         dao.createUser(usuario_nome, usuario_id, usuario_senha, usuario_digital)
         print("Usuário",usuario_id, "salvo com sucesso!")
-    elif(opcao=='5'):
+    elif(opcao=='5'):# Apagar usuário
         usuario_id = input("Informa o id do usuário que queres apagar: ")
         usuario = dao.readUser(usuario_id)
         if(usuario is None): print("Este usuário não foi encontrado")
@@ -62,7 +62,7 @@ while(True):
             print("Usuário",usuario_id, "apagado com sucesso!")
         else:
             print("Não foi possível apagar usuário", usuario_id)
-    elif(opcao=='6'):
+    elif(opcao=='6'):# Pesquisar senha
         usuario_senha = getpass.getpass("Informa a senha queres pesquisar: ")
         if(dao.allowAccessByPassword(usuario_senha, True)):
             print("essa senha existe")
