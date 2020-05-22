@@ -1,5 +1,8 @@
 from pynput import keyboard
 
+"""
+esta classe acessa o teclado do raspberry
+"""
 class Keys:
     def __init__(self, dao, interface):
         self.keys = ""

@@ -36,7 +36,7 @@ try:
 
     ## Wait that finger is read
     while ( not f.readImage() ): pass
-    
+
     if(input('press 1 to download image or anything else to download string... ')=='1'):
         print('Downloading image (this take a while)...')
         imageDestination =  tempfile.gettempdir() + '/fingerprint.bmp'

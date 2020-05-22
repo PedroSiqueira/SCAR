@@ -4,6 +4,10 @@ from Interface import Interface
 from pynput import keyboard
 from pyfingerprint.pyfingerprint import PyFingerprint
 
+"""
+este é o programa que gerencia o controle e acesso de usuários
+"""
+
 dao = Dao("scar.db")
 interface = Interface()
 keys = Keys(dao, interface)

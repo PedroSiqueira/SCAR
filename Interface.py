@@ -1,6 +1,9 @@
 import RPi.GPIO as GPIO
 import time
 
+"""
+esta classe acessa os leds e a trava elétrica
+"""
 class Interface:
     def __del__(self):
         GPIO.cleanup()
