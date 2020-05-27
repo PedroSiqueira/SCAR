@@ -2,19 +2,24 @@ import traceback
 import RPi.GPIO as GPIO
 
 """
-esta classe conecta ao teclado membrana
+esta classe conecta o raspberry pi ao teclado membrana
+fonte: gaven macdonald, https://www.youtube.com/watch?v=yYnX5QodqQ4
 """
 class Keypad:
-    def __init__(self, gpiomode, ROWS, COLS):
+    def __init__(self, ROWS, COLS, boardOrBcm=True):
         self.ROWS=ROWS
         self.COLS=COLS
-        GPIO.setmode(gpiomode)
+        if(boardOrBcm==True):
+            GPIO.setmode(GPIO.BOARD)
+        else:
+            GPIO.setmode(GPIO.BCM)
+
         if(len(self.ROWS)!=4):
             raise ValueError('Number of rows not supported')
         if(len(self.COLS)==3):
-            self.MATRIX = [[1,2,3],[4,5,6],[7,8,9],['*',0,'#']]
+            self.MATRIX = [['1','2','3'],['4','5','6'],['7','8','9'],['*','0','#']]
         elif(len(self.COLS)==4):
-            self.MATRIX = [[1,2,3,'A'],[4,5,6,'B'],[7,8,9,'C'],['*',0,'#','D']]
+            self.MATRIX = [['1','2','3','A'],['4','5','6','B'],['7','8','9','C'],['*','0','#','D']]
         else:
             raise ValueError('Number of columns not supported')
 

@@ -5,22 +5,17 @@ import time
 esta classe acessa os leds e a trava elétrica
 """
 class Interface:
-    def close(self):
-        print("closing interface...")
-        GPIO.output(self.ledAzul, GPIO.LOW)
-        GPIO.output(self.ledVermelho, GPIO.LOW)
-        GPIO.output(self.ledVerde, GPIO.LOW)
-        GPIO.output(self.fechadura, GPIO.HIGH) # o relay eh desligado no sinal HIGH
-        GPIO.cleanup()
-        print("interface closed")
-
-    def __init__(self, gpiomode = GPIO.BOARD, ledVermelho = 33, ledVerde = 35,  ledAzul = 37, fechadura = 31):
+    def __init__(self, boardOrBcm = True, ledVermelho = 33, ledVerde = 35,  ledAzul = 37, fechadura = 31):
         self.ledVermelho = ledVermelho
         self.ledVerde = ledVerde
         self.ledAzul = ledAzul
         self.fechadura = fechadura
 
-        GPIO.setmode(gpiomode)
+        if(boardOrBcm==True):
+            GPIO.setmode(GPIO.BOARD)
+        else:
+            GPIO.setmode(GPIO.BCM)
+
         GPIO.setup(self.ledVermelho, GPIO.OUT)
         GPIO.setup(self.ledVerde, GPIO.OUT)
         GPIO.setup(self.ledAzul, GPIO.OUT)
@@ -117,30 +112,46 @@ class Interface:
             GPIO.output(self.ledVermelho, GPIO.LOW)
             GPIO.output(self.ledAzul, GPIO.HIGH)
 
-    def erro(self, e = Exception('Erro nao definido')):
+    def erro(self):
         for i in range(2):
             GPIO.output(self.ledAzul, GPIO.LOW)
             GPIO.output(self.ledVermelho, GPIO.HIGH)
+            GPIO.output(self.ledVerde, GPIO.HIGH)
             time.sleep(0.5)
             GPIO.output(self.ledVermelho, GPIO.LOW)
-            GPIO.output(self.ledAzul, GPIO.HIGH)
+            GPIO.output(self.ledVerde, GPIO.LOW)
             time.sleep(0.5)
         GPIO.output(self.ledAzul, GPIO.HIGH)
 
-def main():
+    def blinkOnce(self, ledId=None):
+        if(ledId is None): ledId = self.ledAzul
+        if(GPIO.input(ledId)==True):
+            on=GPIO.LOW
+            off=GPIO.HIGH
+        else:
+            on=GPIO.HIGH
+            off=GPIO.LOW
+
+        GPIO.output(ledId,on)
+        time.sleep(0.5)
+        GPIO.output(ledId,off)
+
+if __name__== "__main__":
     i = Interface()
     while(True):
-        r=input("digite 'a' para autorizado, 'd' para desautorizado ou outra coisa para sair")
+        r=input("digite 'a' para autorizado, 'd' para desautorizado, 'b' para piscar ou outra coisa para sair")
         if(r=='a'):
             r=int(input("digite um numero"))
             i.acessoAutorizado(r)
         elif(r=='d'):
             r=int(input("digite um numero"))
             i.acessoDesautorizado(r)
+        elif(r=='b'):
+            r=input("'r' para vermelho, 'g' para verde ou outro valor para azul")
+            if(r=='r'): i.blinkOnce(i.ledVermelho)
+            elif(r=='g'): i.blinkOnce(i.ledVerde)
+            else: i.blinkOnce(i.ledAzul)
         else:
             i.erro()
             break
-
-
-if __name__== "__main__":
-    main()
+    GPIO.cleanup();
