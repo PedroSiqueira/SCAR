@@ -21,7 +21,7 @@ try:
     f = PyFingerprint('/dev/ttyAMA0', 57600, 0xFFFFFFFF, 0x00000000)
     if ( f.verifyPassword() == False ):
         raise ValueError('The given fingerprint sensor password is wrong!')
-        print("fingerprint initialized")
+    print("fingerprint initialized")
 except Exception as e:
     print('The fingerprint sensor could not be initialized!')
     print('Exception message: ' + str(e))
@@ -56,3 +56,6 @@ while(not keys.quit):
     except Exception as e:
         print(e)
         interface.erro(e)
+
+interface.close()
+print("program quitted")

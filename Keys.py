@@ -32,9 +32,9 @@ class Keys:
             # se for ENTER, faça uma ação
             if key == keyboard.Key.enter:
                 if self.dao.allowAccessByPassword(self.keys):
-                    print("Authorized access")
+                    print("Authorized access by password")
                     self.interface.acessoAutorizado(1)
                 else:
-                    print("Unauthorized access")
+                    print("Unauthorized access by password")
                     self.interface.acessoDesautorizado(1)
             self.keys = ""
