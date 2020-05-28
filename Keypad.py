@@ -44,7 +44,7 @@ class Keypad:
 
 if __name__ == '__main__':
     try:
-        keypad = Keypad(GPIO.BOARD,ROWS=[16,18,22,24],COLS=[26,32,36])
+        keypad = Keypad(ROWS=[16,18,22,24],COLS=[26,32,36])
         button=None
         while(button != '*'):
             button=keypad.getKey()
