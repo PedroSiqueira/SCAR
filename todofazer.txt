@@ -11,15 +11,11 @@ Raspberry Pi
 #################################################
 bug: Ao criar usuário, se salvar o dedo mas cancelar a operação, o dedo fica salvo no banco
 
-bug: Outro bug. Ao encerrar scar.py, não desliga os leds, eles continuam acesos
+colocar uma forma mais elegante para encerrar o programa scar.py ao inves de digitar uma senha q pode ser de um usuário
 
 Função pra limpar do leitor as digitais q não se encontram no banco
 
 Se ainda não bateu o ponto, entrada. Se já bateu, saída
-
-se encerrar o programa com uma porta logica ativada, esta porta continuará ativada?
-
-acesso por senha e por digital ao mesmo tempo pode dar problema? a thread Keys tem comando sleep, mas o loop do programa principal espera o sleep de outra thread? comando sleep bloqueia todas as threads?
 
 Para entrar, precisa da leitura biométrica (ou senha?). Para sair, basta apertar o botão?
 
