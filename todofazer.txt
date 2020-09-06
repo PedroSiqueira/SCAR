@@ -1,24 +1,15 @@
-#################################################
-Arduino
-#################################################
-Possibilidade de trocar LCD ou led por sinal sonoro!
-
-Coloca uma senha especial e o aparelho solicita a entrada dos dados e depois aparelho envia esses dados para a Central
-
-
-#################################################
-Raspberry Pi
-#################################################
 bug: Ao criar usuário, se salvar o dedo mas cancelar a operação, o dedo fica salvo no banco
 
-colocar uma forma mais elegante para encerrar o programa scar.py ao inves de digitar uma senha q pode ser de um usuário
+bug: usuario_id da tabela horario é integer, mas referencia coluna id de usuario que é text
+
+colocar uma forma mais elegante de encerrar o programa scar.py ao inves de digitar uma senha q pode ser de um usuário
 
 Função pra limpar do leitor as digitais q não se encontram no banco
 
-Se ainda não bateu o ponto, entrada. Se já bateu, saída
+Para entrar, precisa da leitura biométrica ou senha. Para sair, basta apertar um botão? vou precisar de um leitor e um teclado na entrada e na saída?
 
-Para entrar, precisa da leitura biométrica (ou senha?). Para sair, basta apertar o botão?
+se tiver só um leitor e teclado por porta, como registrar o ponto de saída? Se ainda não bateu o ponto, entrada; se já bateu, saída?
 
 Possibilidade de abrir a tranca através da internet.
 
-Pode ocorrer problema de demora para identificar a digital se comparada com um banco de digitais grandes. Portanto, o sistema pode realizar a exclusão de um usuário cadastrada se ele não usou o sistema por um período de 1 ano.
+Pode ocorrer problema de demora para identificar a digital se comparada com um banco de digitais grandes. ou então a memória do leitor biométrico esgotar, já q a capacidade é de apenas 120 impressões. Portanto, o sistema pode realizar a exclusão da impressão digital de um usuário cadastrado se ele não usou o sistema por um período de 1 ano.
